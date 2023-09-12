@@ -1,0 +1,29 @@
+- name: prepare cluster
+  hosts: all
+  become: true
+  tasks:
+    - name: Add ingress-nginx repo
+      kubernetes.core.helm_repository:
+        name: stable
+        repo_url: "https://kubernetes.github.io/ingress-nginx"
+           
+    - name: Deploy nginx
+      kubernetes.core.helm:
+          name: ingress-nginx
+          chart_ref: stable/ingress-nginx
+          release_namespace: default
+          values:
+            replicas: 1
+            controller:
+              hostNetwork: true
+
+    - name: Copy helm chart
+      ansible.builtin.copy:
+        src: ../charts
+        dest: /tmp/
+
+    - name: Deploy helm chart
+      kubernetes.core.helm:
+        name: wp-mysql-pma
+        chart_ref: /tmp/charts
+        release_namespace: default
