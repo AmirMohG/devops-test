@@ -11,6 +11,7 @@ mysql:
   persistence:
     size: 2Gi
     path: "/mnt/mysql-data"
+    volumeName: "mysql-volume"
   deploymentName: "mysql-deployment"
   configMapName: "mysql-configmap"
   secretName: "mysql-secret"
@@ -19,17 +20,18 @@ mysql:
 
 wordpress:
   image: wordpress:5.8-apache
-  url: "wp.local"
+  url: "wp.9craft.site"
   persistence:
     size: 2Gi
     path: "/mnt/wp-data"
+    volumeName: "wordpress-volume"
   deploymentName: "wordpress-deployment"
   PVCName: "wordpress-pv-claim"
   serviceName: "wordpress-svc"
   ingressName: "wordpress-ing"
 
 phpmyadmin:
-  url: "pma.local"
+  url: "pma.9craft.site"
   image: phpmyadmin/phpmyadmin
   deploymentName: "pma-deployment"
   serviceName: "pma-svc"

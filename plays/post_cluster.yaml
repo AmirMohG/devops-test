@@ -1,7 +1,22 @@
 - name: prepare cluster
   hosts: all
   become: true
+
   tasks:
+    - name: Download helm script
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        dest: /tmp/get_helm.sh
+        mode: 644
+
+    - name: Change script permission
+      ansible.builtin.file: 
+        dest: /tmp/get_helm.sh
+        mode: a+x
+
+    - name: Run helm installation script
+      ansible.builtin.command: /tmp/get_helm.sh 
+
     - name: Add ingress-nginx repo
       kubernetes.core.helm_repository:
         name: stable
@@ -21,6 +36,21 @@
       ansible.builtin.copy:
         src: ../charts
         dest: /tmp/
+
+    - name: Copy certs and pkey
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: /tmp/
+      with_items:
+        - "../certs/fullchain.pem"
+        - "../certs/privkey.pem"
+
+    - name: Apply certs
+      ansible.builtin.command: "kubectl create secret tls tls --key /tmp/privkey.pem --cert /tmp/fullchain.pem"
+
+    - name: Waiting for ingress-nginx image to download
+      ansible.builtin.pause:
+        seconds: 60
 
     - name: Deploy helm chart
       kubernetes.core.helm:

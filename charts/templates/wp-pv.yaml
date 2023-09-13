@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: wp-pv
+  name: {{ .Values.wordpress.persistence.volumeName }}
   labels:
     type: local
 spec:
@@ -12,17 +12,3 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: {{ .Values.wordpress.persistence.path }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Values.wordpress.PVCName }}
-  labels:
-    app: {{ .Values.wordpress.deploymentName }}
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.wordpress.persistence.size }}

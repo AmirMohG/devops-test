@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.wordpress.PVCName }}
+  labels:
+    app: {{ .Values.wordpress.deploymentName }}
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.wordpress.persistence.size }}
+  volumeName: {{ .Values.wordpress.persistence.volumeName }}
