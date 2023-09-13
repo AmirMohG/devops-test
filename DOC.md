@@ -3,7 +3,7 @@
 vim charts/values.yaml
 ```
 
-chmod +x client-setup.sh; ./client-setup.sh
+chmod +x client-setup.sh; ./client-setup.sh <server-ip> <ssh-password> <sudo-password>
 
 
 
