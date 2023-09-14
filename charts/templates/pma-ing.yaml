@@ -7,6 +7,8 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 25m
 spec:
   ingressClassName: "nginx"
+  tls:
+      - secretName: tls
   rules:
   - host: {{ .Values.phpmyadmin.url }}
     http:
