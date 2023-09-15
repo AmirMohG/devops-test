@@ -3,8 +3,7 @@ kind: Ingress
 metadata:
   name: {{ .Values.wordpress.ingressName }}
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: 25m
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: "nginx"
   tls:
@@ -13,7 +12,7 @@ spec:
   - host: {{ .Values.wordpress.url }}
     http:
       paths:
-      - path: /
+      - path: /{{ .Values.wordpress.ingressPath }}(/|$)(.*)
         pathType: Prefix
         backend:
           service:

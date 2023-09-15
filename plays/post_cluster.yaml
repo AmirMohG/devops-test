@@ -47,6 +47,7 @@
 
     - name: Apply certs
       ansible.builtin.command: "kubectl create secret tls tls --key /tmp/privkey.pem --cert /tmp/fullchain.pem"
+      ignore_errors: yes
 
     - name: Waiting for ingress-nginx image to download
       ansible.builtin.pause:

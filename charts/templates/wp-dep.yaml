@@ -17,6 +17,13 @@ spec:
     spec:
       containers:
       - image: {{ .Values.wordpress.image }}
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - sleep 10; mkdir /var/www/html/{{ .Values.wordpress.ingressPath }}; mv /var/www/html/* /var/www/html/{{ .Values.wordpress.ingressPath }}; mv /var/www/html/.* /var/www/html/{{ .Values.wordpress.ingressPath }}; echo success!
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST

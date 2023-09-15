@@ -20,7 +20,7 @@ mysql:
 
 wordpress:
   image: wordpress:5.8-apache
-  url: "wp.9craft.site"
+  url: "amirmohammad-ghanbari-nl-rg3.maxtld.dev"
   persistence:
     size: 2Gi
     path: "/mnt/wp-data"
@@ -29,13 +29,15 @@ wordpress:
   PVCName: "wordpress-pv-claim"
   serviceName: "wordpress-svc"
   ingressName: "wordpress-ing"
+  ingressPath: "wordpress"
 
 phpmyadmin:
-  url: "pma.9craft.site"
+  url: "amirmohammad-ghanbari-nl-rg3.maxtld.dev"
   image: phpmyadmin/phpmyadmin
   deploymentName: "pma-deployment"
   serviceName: "pma-svc"
   ingressName: "pma-ing"
+  ingressPath: "dbadmin"
 
 
 
